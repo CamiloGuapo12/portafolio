@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camilo Casallas · Portafolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f0eb;
+  --bg-card: #ffffff;
+  --text: #1a1a2e;
+  --text-muted: #5a5a72;
+  --accent: #e8a838;
+  --accent-dark: #c48a20;
+  --accent-glow: rgba(232, 168, 56, 0.25);
+  --border: #e0dbd4;
+  --tag-bg: #f0ebe4;
+  --nav-bg: rgba(245, 240, 235, 0.85);
+  --shadow: 0 4px 30px rgba(26, 26, 46, 0.08);
+  --shadow-lg: 0 12px 50px rgba(26, 26, 46, 0.12);
+  --radius: 16px;
+  --font-body: 'Sora', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+[data-theme="dark"] {
+  --bg: #0f0f1a;
+  --bg-card: #1a1a2e;
+  --text: #e8e6e1;
+  --text-muted: #9a98a8;
+  --accent: #f0b848;
+  --accent-dark: #e8a838;
+  --accent-glow: rgba(240, 184, 72, 0.2);
+  --border: #2a2a40;
+  --tag-bg: #24243a;
+  --nav-bg: rgba(15, 15, 26, 0.9);
+  --shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 50px rgba(0, 0, 0, 0.4);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:80px; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  transition: background var(--transition), color var(--transition);
+  overflow-x: hidden;
+}
+body::before {
+  content:''; position:fixed; top:-200px; right:-200px;
+  width:600px; height:600px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  border-radius:50%; z-index:0; pointer-events:none;
+}
+
+/* ═══ NAV ═══ */
+.navbar { position:fixed; top:0; left:0; right:0; z-index:1000;
+  background:var(--nav-bg); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border); transition:background var(--transition); }
+.navbar-inner { max-width:1100px; margin:0 auto; padding:0 24px; height:64px;
+  display:flex; align-items:center; justify-content:space-between; }
+.nav-logo { font-family:var(--font-mono); font-weight:700; font-size:1.1rem;
+  color:var(--accent); letter-spacing:2px; text-decoration:none; }
+.nav-links { display:flex; gap:8px; align-items:center; }
+.nav-links a { text-decoration:none; color:var(--text-muted); font-size:0.82rem;
+  font-weight:500; padding:6px 14px; border-radius:99px; transition:all var(--transition); letter-spacing:0.3px; }
+.nav-links a:hover, .nav-links a.active { color:var(--text); background:var(--tag-bg); }
+.nav-links a.active { color:var(--accent-dark); background:var(--accent-glow); }
+.theme-btn { background:none; border:2px solid var(--border); color:var(--text);
+  width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:1.1rem;
+  display:grid; place-items:center; transition:all var(--transition); margin-left:12px; }
+.theme-btn:hover { border-color:var(--accent); transform:rotate(20deg); }
+.hamburger { display:none; background:none; border:none; color:var(--text);
+  font-size:1.5rem; cursor:pointer; padding:4px; }
+
+/* ═══ MAIN ═══ */
+.main { max-width:1100px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+section { padding:80px 0 40px; }
+
+/* ═══ HERO ═══ */
+.hero { min-height:100vh; display:flex; align-items:center; padding-top:64px; }
+.hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; width:100%; }
+.hero-text { opacity:0; transform:translateY(30px); animation:fadeUp 0.8s ease forwards 0.2s; }
+.hero-badge { display:inline-block; font-family:var(--font-mono); font-size:0.75rem;
+  color:var(--accent); background:var(--accent-glow); padding:6px 16px; border-radius:99px;
+  letter-spacing:2px; text-transform:uppercase; margin-bottom:20px; border:1px solid var(--accent); }
+.hero-text h1 { font-size:clamp(2.2rem,5vw,3.5rem); font-weight:800; line-height:1.1; margin-bottom:16px; letter-spacing:-1px; }
+.hero-text h1 span { color:var(--accent); }
+.hero-text .subtitle { font-size:1.1rem; color:var(--text-muted); margin-bottom:12px; font-weight:400; }
+.hero-text .description { font-size:0.95rem; color:var(--text-muted); margin-bottom:28px; max-width:480px; line-height:1.8; }
+.hero-contact { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:28px; }
+.hero-contact a { display:inline-flex; align-items:center; gap:6px; text-decoration:none;
+  font-size:0.82rem; color:var(--text-muted); background:var(--bg-card); padding:8px 16px;
+  border-radius:99px; border:1px solid var(--border); transition:all var(--transition); }
+.hero-contact a:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+.hero-photo-wrapper { position:relative; display:flex; justify-content:center;
+  opacity:0; transform:translateY(30px); animation:fadeUp 0.8s ease forwards 0.4s; }
+.hero-photo-wrapper::before { content:''; position:absolute; width:320px; height:320px;
+  border:2px solid var(--accent); border-radius:24px; top:20px; left:calc(50% - 140px); transform:rotate(6deg); opacity:0.3; }
+.hero-photo { width:300px; height:370px; object-fit:cover; border-radius:20px;
+  box-shadow:var(--shadow-lg); position:relative; z-index:1; border:3px solid var(--bg-card); }
+
+/* ═══ OBJECTIVES ═══ */
+.objectives-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius);
+  padding:36px 40px; box-shadow:var(--shadow); position:relative; overflow:hidden; transition:all var(--transition); }
+.objectives-card::before { content:''; position:absolute; top:0; left:0; width:4px; height:100%;
+  background:linear-gradient(180deg,var(--accent),var(--accent-dark)); }
+.objectives-card h3 { font-size:0.8rem; font-weight:700; margin-bottom:12px; color:var(--accent);
+  font-family:var(--font-mono); text-transform:uppercase; letter-spacing:1.5px; }
+.objectives-card p { color:var(--text-muted); font-size:0.95rem; line-height:1.8; }
+
+/* ═══ SECTION HEADERS ═══ */
+.section-header { margin-bottom:48px; }
+.section-header .label { font-family:var(--font-mono); color:var(--accent); font-size:0.75rem;
+  letter-spacing:3px; text-transform:uppercase; font-weight:700; margin-bottom:8px; }
+.section-header h2 { font-size:clamp(1.8rem,3.5vw,2.5rem); font-weight:800; letter-spacing:-0.5px; }
+
+/* ═══ AUDIO ═══ */
+.audio-section { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius);
+  padding:32px 36px; box-shadow:var(--shadow); margin-top:40px; display:flex; align-items:center;
+  gap:24px; flex-wrap:wrap; transition:all var(--transition); }
+.audio-icon { width:56px; height:56px; background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+  border-radius:50%; display:grid; place-items:center; font-size:1.5rem; flex-shrink:0; animation:pulse 2s ease infinite; }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 var(--accent-glow);} 50%{box-shadow:0 0 0 12px transparent;} }
+.audio-info { flex:1; min-width:200px; }
+.audio-info h4 { font-size:0.95rem; font-weight:600; margin-bottom:4px; }
+.audio-info p { font-size:0.8rem; color:var(--text-muted); }
+.audio-controls { display:flex; gap:10px; align-items:center; }
+.audio-controls button { width:44px; height:44px; border-radius:50%; border:2px solid var(--border);
+  background:var(--bg); color:var(--text); font-size:1.1rem; cursor:pointer;
+  transition:all var(--transition); display:grid; place-items:center; }
+.audio-controls button:hover { border-color:var(--accent); background:var(--accent-glow); transform:scale(1.08); }
+.audio-controls button.playing { border-color:var(--accent); background:var(--accent); color:#fff; }
+.audio-progress { flex-basis:100%; height:4px; background:var(--tag-bg); border-radius:99px; overflow:hidden; cursor:pointer; }
+.audio-progress-bar { height:100%; background:var(--accent); border-radius:99px; width:0%; transition:width 0.1s linear; }
+
+/* ═══ EXPERIENCE ═══ */
+.experience-list { display:flex; flex-direction:column; gap:24px; }
+.exp-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius);
+  padding:32px 36px; box-shadow:var(--shadow); transition:all var(--transition); position:relative; overflow:hidden; }
+.exp-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-lg); }
+.exp-card .exp-top { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:16px; }
+.exp-card h3 { font-size:1.05rem; font-weight:700; }
+.exp-card .exp-meta { font-family:var(--font-mono); font-size:0.72rem; color:var(--accent);
+  background:var(--accent-glow); padding:4px 12px; border-radius:99px; white-space:nowrap; }
+.exp-card .exp-role { font-size:0.85rem; color:var(--text-muted); margin-bottom:14px; font-weight:500; }
+.exp-card ul { list-style:none; display:grid; gap:8px; }
+.exp-card ul li { font-size:0.88rem; color:var(--text-muted); padding-left:20px; position:relative; line-height:1.6; }
+.exp-card ul li::before { content:'▸'; position:absolute; left:0; color:var(--accent); font-weight:700; }
+
+/* ═══ EDUCATION ═══ */
+.edu-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:24px; }
+.edu-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius);
+  padding:32px; box-shadow:var(--shadow); transition:all var(--transition); }
+.edu-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-lg); }
+.edu-card .edu-year { font-family:var(--font-mono); font-size:0.75rem; color:var(--accent); letter-spacing:1px; font-weight:700; margin-bottom:10px; }
+.edu-card h3 { font-size:1.05rem; font-weight:700; margin-bottom:6px; }
+.edu-card .edu-institution { font-size:0.88rem; color:var(--text-muted); margin-bottom:12px; }
+.edu-card p { font-size:0.85rem; color:var(--text-muted); line-height:1.7; }
+
+/* ═══ CERTIFICATIONS ═══ */
+.cert-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; }
+.cert-item { background:var(--bg-card); border:1px solid var(--border); border-radius:12px;
+  padding:20px 24px; transition:all var(--transition); display:flex; align-items:flex-start; gap:14px; }
+.cert-item:hover { border-color:var(--accent); transform:translateY(-2px); }
+.cert-icon { width:36px; height:36px; background:var(--accent-glow); border-radius:10px;
+  display:grid; place-items:center; flex-shrink:0; font-size:0.9rem; }
+.cert-item h4 { font-size:0.85rem; font-weight:600; margin-bottom:4px; line-height:1.4; }
+.cert-item span { font-size:0.75rem; color:var(--text-muted); }
+
+/* ═══ SKILLS ═══ */
+.skills-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:32px; }
+.skill-group h3 { font-family:var(--font-mono); font-size:0.75rem; color:var(--accent);
+  letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; font-weight:700; }
+.skill-tags { display:flex; flex-wrap:wrap; gap:10px; }
+.skill-tag { background:var(--tag-bg); color:var(--text); padding:8px 18px; border-radius:99px;
+  font-size:0.82rem; font-weight:500; border:1px solid var(--border); transition:all var(--transition); cursor:default; }
+.skill-tag:hover { border-color:var(--accent); background:var(--accent-glow); transform:translateY(-2px); }
+
+/* ═══ PROJECTS ═══ */
+.projects-list { display:flex; flex-direction:column; gap:36px; }
+.project-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius);
+  overflow:hidden; box-shadow:var(--shadow); transition:all var(--transition); }
+.project-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); }
+.project-card.horizontal { display:grid; grid-template-columns:1fr 1fr; }
+.project-card.horizontal:nth-child(even) .project-img { order:2; }
+.project-img { position:relative; overflow:hidden; min-height:260px; }
+.project-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; }
+.project-card:hover .project-img img { transform:scale(1.03); }
+.project-body { padding:32px; display:flex; flex-direction:column; justify-content:center; }
+.project-body h3 { font-size:1.15rem; font-weight:700; margin-bottom:12px; }
+.project-body p { font-size:0.88rem; color:var(--text-muted); line-height:1.7; margin-bottom:18px; }
+.project-techs { display:flex; flex-wrap:wrap; gap:8px; }
+.project-techs span { font-family:var(--font-mono); font-size:0.7rem; color:var(--accent);
+  background:var(--accent-glow); padding:4px 12px; border-radius:99px; font-weight:700; letter-spacing:0.5px; }
+.project-link { display:inline-flex; align-items:center; gap:6px; color:var(--accent); font-size:0.85rem;
+  font-weight:600; text-decoration:none; margin-top:14px; transition:all var(--transition); }
+.project-link:hover { gap:10px; }
+
+/* ═══ HOBBIES ═══ */
+.hobbies-wrap { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+.hobby-chip { background:var(--bg-card); border:1px solid var(--border); border-radius:99px;
+  padding:12px 24px; font-size:0.88rem; font-weight:500; display:flex; align-items:center;
+  gap:8px; transition:all var(--transition); cursor:default; }
+.hobby-chip:hover { border-color:var(--accent); transform:translateY(-3px); box-shadow:var(--shadow); }
+
+/* ═══ FOOTER ═══ */
+footer { text-align:center; padding:48px 24px; margin-top:40px; border-top:1px solid var(--border); }
+footer p { font-size:0.82rem; color:var(--text-muted); }
+footer .accent { color:var(--accent); font-weight:600; }
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+.reveal { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.stagger > * { opacity:0; transform:translateY(20px); transition:opacity 0.5s ease, transform 0.5s ease; }
+.stagger.visible > *:nth-child(1){transition-delay:0s;} .stagger.visible > *:nth-child(2){transition-delay:0.08s;}
+.stagger.visible > *:nth-child(3){transition-delay:0.16s;} .stagger.visible > *:nth-child(4){transition-delay:0.24s;}
+.stagger.visible > *:nth-child(5){transition-delay:0.32s;} .stagger.visible > *:nth-child(6){transition-delay:0.4s;}
+.stagger.visible > *:nth-child(7){transition-delay:0.48s;} .stagger.visible > *:nth-child(8){transition-delay:0.56s;}
+.stagger.visible > *:nth-child(9){transition-delay:0.64s;} .stagger.visible > *:nth-child(10){transition-delay:0.72s;}
+.stagger.visible > *:nth-child(11){transition-delay:0.8s;} .stagger.visible > *:nth-child(12){transition-delay:0.88s;}
+.stagger.visible > * { opacity:1; transform:translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .nav-links { position:fixed; top:64px; left:0; right:0; background:var(--nav-bg);
+    backdrop-filter:blur(20px); flex-direction:column; padding:20px; gap:4px;
+    border-bottom:1px solid var(--border); transform:translateY(-120%); transition:transform 0.3s ease; }
+  .nav-links.open { transform:translateY(0); }
+  .hamburger { display:block; }
+  .hero-grid { grid-template-columns:1fr; gap:40px; text-align:center; }
+  .hero-photo-wrapper { order:-1; }
+  .hero-photo { width:220px; height:280px; }
+  .hero-photo-wrapper::before { width:240px; height:240px; left:calc(50% - 110px); }
+  .hero-contact { justify-content:center; }
+  .hero-text .description { margin:0 auto 28px; }
+  .objectives-card { padding:28px; }
+  .audio-section { padding:24px; }
+  .exp-card { padding:24px; }
+  .project-card.horizontal { grid-template-columns:1fr; }
+  .project-card.horizontal:nth-child(even) .project-img { order:0; }
+  section { padding:60px 0 20px; }
+}
+@media(max-width:480px){
+  .navbar-inner { padding:0 16px; }
+  .main { padding:0 16px; }
+  .cert-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="#inicio" class="nav-logo">C|C</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#inicio" class="active">Inicio</a>
+      <a href="#experiencia">Experiencia</a>
+      <a href="#educacion">Educación</a>
+      <a href="#certificaciones">Certificaciones</a>
+      <a href="#habilidades">Habilidades</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#aficiones">Aficiones</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="theme-btn" id="themeToggle" aria-label="Cambiar tema">🌙</button>
+      <button class="hamburger" id="hamburger" aria-label="Menú">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<div class="main">
+  <section class="hero" id="inicio">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="hero-badge">Ing. de Software · 9no Semestre</div>
+        <h1>Camilo Alejandro<br><span>Casallas</span></h1>
+        <p class="subtitle">Estudiante de Ingeniería de Software · Universidad Manuela Beltrán</p>
+        <p class="description">
+          Apasionado por el desarrollo de software, la ciberseguridad y la creación de experiencias digitales.
+          Con experiencia en desarrollo de servidores, scripting en Lua y Python, y gestión de comunidades tecnológicas.
+          Busco aplicar mis conocimientos en proyectos innovadores que generen impacto real.
+        </p>
+        <div class="hero-contact">
+          <a href="mailto:camilitocasallas@gmail.com">✉ camilitocasallas@gmail.com</a>
+          <a href="tel:+573227928271">📱 322 792 8271</a>
+          <a>📍 Bogotá, Colombia</a>
+        </div>
+        <div class="objectives-card">
+          <h3>// Objetivos Profesionales</h3>
+          <p>
+            Contribuir al desarrollo de soluciones tecnológicas innovadoras en el campo del software y la ciberseguridad.
+            A corto plazo, consolidar mis habilidades como desarrollador full-stack y obtener certificaciones especializadas.
+            A largo plazo, liderar proyectos de alto impacto en la industria tecnológica colombiana, integrando mis competencias
+            en programación, liderazgo y gestión de equipos.
+          </p>
+        </div>
+      </div>
+      <div class="hero-photo-wrapper">
+        <img class="hero-photo" src="profile.png" alt="Fotografía profesional de Camilo Alejandro Casallas">
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ AUDIO ═══ -->
+  <div class="audio-section reveal" id="audio">
+    <div class="audio-icon">🎙️</div>
+    <div class="audio-info">
+      <h4>Presentación Personal</h4>
+      <p>Audio de bienvenida · Camilo Casallas</p>
+    </div>
+    <div class="audio-controls">
+      <button id="playBtn" title="Reproducir">▶</button>
+      <button id="pauseBtn" title="Pausar">⏸</button>
+      <button id="stopBtn" title="Detener">⏹</button>
+    </div>
+    <div class="audio-progress" id="audioProgress">
+      <div class="audio-progress-bar" id="audioProgressBar"></div>
+    </div>
+    <audio id="audioPlayer" src="presentacion.mp3" preload="auto"></audio>
+  </div>
+
+  <!-- ═══ EXPERIENCIA ═══ -->
+  <section id="experiencia">
+    <div class="section-header reveal">
+      <p class="label">01 · Trayectoria</p>
+      <h2>Experiencia Laboral</h2>
+    </div>
+    <div class="experience-list">
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <h3>Desarrollador de Servidores de Roleplay GTA V</h3>
+          <span class="exp-meta">Ene 2024 – Dic 2025</span>
+        </div>
+        <p class="exp-role">Jefe · Bogotá</p>
+        <ul>
+          <li>Diseño, implementación y mantenimiento de un servidor de roleplay en GTA V, asegurando una experiencia inmersiva y estable.</li>
+          <li>Desarrollo de scripts personalizados en Lua y plugins en FiveM para mejorar funcionalidad e interactividad.</li>
+          <li>Gestión de base de datos del servidor garantizando integridad y fluidez en el acceso.</li>
+          <li>Optimización de rendimiento para soportar alto volumen de jugadores simultáneos.</li>
+          <li>Implementación de medidas de seguridad para proteger el servidor y datos de usuarios.</li>
+          <li>Desarrollo de economía virtual y sistemas de progresión de personajes.</li>
+          <li>Creación de documentación técnica y guías para la comunidad.</li>
+          <li>Establecimiento de reglas y mecanismos de moderación para roleplay adecuado.</li>
+        </ul>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <h3>Jefe de Cocina</h3>
+          <span class="exp-meta">Ene 2023 – Feb 2025</span>
+        </div>
+        <p class="exp-role">Juan Camilo Gómez Bermudez · Mosquera</p>
+        <ul>
+          <li>Supervisión eficiente del emplatado, asegurando la presentación de alta calidad de los platos.</li>
+          <li>Excelencia en la atención al cliente, manteniendo altos estándares de satisfacción.</li>
+          <li>Gestión competente del personal de cocina, fomentando un ambiente de trabajo colaborativo.</li>
+        </ul>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <h3>Mesero y Auxiliar de Cocina</h3>
+          <span class="exp-meta">Ene 2024 – Dic 2024</span>
+        </div>
+        <p class="exp-role">Luz Mila · Mosquera</p>
+        <ul>
+          <li>Atención al cliente con cortesía y eficiencia durante el servicio.</li>
+          <li>Configuración, limpieza y desinfección de mesas antes y después del servicio.</li>
+          <li>Preparación y presentación de bebidas básicas y montaje de platos.</li>
+          <li>Capacidad para trabajar bajo presión durante horas pico manteniendo calidad.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ EDUCACIÓN ═══ -->
+  <section id="educacion">
+    <div class="section-header reveal">
+      <p class="label">02 · Formación</p>
+      <h2>Educación</h2>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <p class="edu-year">2022 – Presente</p>
+        <h3>Ingeniería de Software</h3>
+        <p class="edu-institution">Universidad Manuela Beltrán · Bogotá</p>
+        <p>Cursando el noveno semestre. Formación integral en desarrollo de software, ciberseguridad, bases de datos, ingeniería de requisitos y gestión de proyectos tecnológicos.</p>
+      </div>
+      <div class="edu-card reveal">
+        <p class="edu-year">2021</p>
+        <h3>Bachiller Académico con Profundización en Comercio</h3>
+        <p class="edu-institution">I.E.D. Sabio Mutis · La Mesa, Cundinamarca</p>
+        <p>Bachiller Académico especializado en Comercio. Distinción con Medalla de Excelencia Académica.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CERTIFICACIONES ═══ -->
+  <section id="certificaciones">
+    <div class="section-header reveal">
+      <p class="label">03 · Certificaciones</p>
+      <h2>Cursos y Certificaciones</h2>
+    </div>
+    <div class="cert-grid stagger">
+      <div class="cert-item"><div class="cert-icon">🌐</div><div><h4>Introduction to HTML</h4><span>Cisco Networking Academy · 2025</span></div></div>
+      <div class="cert-item"><div class="cert-icon">⚡</div><div><h4>JavaScript Essentials 1</h4><span>Cisco Networking Academy · 2025</span></div></div>
+      <div class="cert-item"><div class="cert-icon">⚡</div><div><h4>JavaScript Essentials</h4><span>Cisco Networking Academy · 2025</span></div></div>
+      <div class="cert-item"><div class="cert-icon">🐛</div><div><h4>Errors, Exceptions, Debugging & Troubleshooting</h4><span>Cisco Networking Academy · 2025</span></div></div>
+      <div class="cert-item"><div class="cert-icon">🔁</div><div><h4>Conditional Execution and Loops</h4><span>Cisco Networking Academy · 2025</span></div></div>
+      <div class="cert-item"><div class="cert-icon">🔧</div><div><h4>Functions – Design, Develop, and Improve JS Programs</h4><span>Cisco Networking Academy · 2025</span></div></div>
+      <div class="cert-item"><div class="cert-icon">🔒</div><div><h4>Introduction to Cybersecurity</h4><span>Cisco Networking Academy · 2024</span></div></div>
+      <div class="cert-item"><div class="cert-icon">📡</div><div><h4>CCNA: Introduction to Networks</h4><span>Cisco Networking Academy · 2023</span></div></div>
+      <div class="cert-item"><div class="cert-icon">🐧</div><div><h4>NDG Linux Essentials & Linux Unhatched</h4><span>Cisco Networking Academy · 2024</span></div></div>
+      <div class="cert-item"><div class="cert-icon">🐍</div><div><h4>Fundamentos de Python 1</h4><span>Cisco Networking Academy · 2023</span></div></div>
+      <div class="cert-item"><div class="cert-icon">🐍</div><div><h4>PCAP – Programming Essentials in Python</h4><span>Cisco Networking Academy · 2023</span></div></div>
+      <div class="cert-item"><div class="cert-icon">🏆</div><div><h4>Networking Academy Learn-A-Thon 2023</h4><span>Cisco Networking Academy · 2023</span></div></div>
+    </div>
+  </section>
+
+  <!-- ═══ HABILIDADES ═══ -->
+  <section id="habilidades">
+    <div class="section-header reveal">
+      <p class="label">04 · Competencias</p>
+      <h2>Habilidades</h2>
+    </div>
+    <div class="skills-container reveal">
+      <div class="skill-group">
+        <h3>Lenguajes y Tecnologías</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Lua</span><span class="skill-tag">Python</span>
+          <span class="skill-tag">JavaScript</span><span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span><span class="skill-tag">C#</span>
+          <span class="skill-tag">SQL</span><span class="skill-tag">FiveM / GTA V</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Frameworks y Herramientas</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Frameworks en C#</span><span class="skill-tag">Electron</span>
+          <span class="skill-tag">Supabase</span><span class="skill-tag">Git</span>
+          <span class="skill-tag">Linux</span><span class="skill-tag">Redes (CCNA)</span>
+          <span class="skill-tag">Ciberseguridad</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Habilidades Blandas</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Liderazgo</span><span class="skill-tag">Trabajo en equipo</span>
+          <span class="skill-tag">Creatividad</span><span class="skill-tag">Adaptabilidad</span>
+          <span class="skill-tag">Gestión del tiempo</span><span class="skill-tag">Empatía</span>
+          <span class="skill-tag">Paciencia</span><span class="skill-tag">Negociación</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Idiomas</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Español (Nativo)</span><span class="skill-tag">Inglés</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PROYECTOS ═══ -->
+  <section id="proyectos">
+    <div class="section-header reveal">
+      <p class="label">05 · Portfolio</p>
+      <h2>Proyectos</h2>
+    </div>
+    <div class="projects-list">
+
+      <!-- Proyecto 1: GTA V Roleplay -->
+      <div class="project-card horizontal reveal">
+        <div class="project-img">
+          <img src="proyecto-gtav.jpg" alt="Collage del servidor de roleplay Proyecto RP en GTA V">
+        </div>
+        <div class="project-body">
+          <h3>🎮 Proyecto RP – Servidor de Roleplay GTA V</h3>
+          <p>
+            Diseño y desarrollo integral de un servidor de roleplay en GTA V utilizando la plataforma FiveM.
+            Incluye scripts personalizados en Lua para mecánicas de juego, sistema de economía virtual,
+            gestión de base de datos con persistencia de personajes, sistema de moderación y documentación
+            técnica completa para la comunidad. Diseño gráfico del branding del servidor realizado en
+            Adobe Photoshop. Optimizado para alto rendimiento con múltiples jugadores simultáneos.
+          </p>
+          <div class="project-techs">
+            <span>Lua</span><span>FiveM</span><span>SQL</span><span>JavaScript</span>
+            <span>Adobe Photoshop</span><span>Gestión de Servidores</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Proyecto 2: Live Tracker -->
+      <div class="project-card horizontal reveal">
+        <div class="project-img">
+          <img src="proyecto-livetracker.jpg" alt="Capturas de la aplicación Live Tracker para TikTok">
+        </div>
+        <div class="project-body">
+          <h3>📊 Live Tracker – Plataforma de Análisis para TikTok Live</h3>
+          <p>
+            Aplicación web progresiva (PWA) para rastreo y análisis de sesiones de TikTok Live.
+            Cuenta con registro de sesiones con conversión USD-COP en tiempo real, dashboard de estadísticas
+            con gráficas interactivas, sistema de metas semanales, módulo de análisis con insights
+            personalizados, y un IA Coach integrado con inteligencia artificial que brinda retroalimentación
+            y recomendaciones basadas en los datos del streamer. Backend con Supabase y desplegado en Netlify.
+          </p>
+          <div class="project-techs">
+            <span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Supabase</span>
+            <span>API de IA</span><span>PWA</span><span>Netlify</span>
+          </div>
+          <a href="https://livetracker-tiktok.netlify.app" target="_blank" class="project-link">Ver proyecto en vivo →</a>
+        </div>
+      </div>
+
+      <!-- Proyecto 3: Soundboard -->
+      <div class="project-card horizontal reveal">
+        <div class="project-img">
+          <img src="soundboard.png" alt="Captura de la aplicación Soundboard para streaming">
+        </div>
+        <div class="project-body">
+          <h3>🔊 Soundboard – Tablero de Sonidos para Streaming</h3>
+          <p>
+            Aplicación de escritorio desarrollada con Electron para reproducir efectos de sonido durante
+            transmisiones en vivo. Cuenta con atajos de teclado globales configurables, control de volumen
+            individual por sonido, almacenamiento persistente de la biblioteca de sonidos, y una ventana
+            de audio oculta dedicada que garantiza la reproducción confiable incluso cuando la aplicación
+            está minimizada. Diseñada para ser utilizada en streams de TikTok Live.
+          </p>
+          <div class="project-techs">
+            <span>Electron</span><span>JavaScript</span><span>HTML5</span><span>CSS3</span>
+            <span>Node.js</span><span>Web Audio API</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ AFICIONES ═══ -->
+  <section id="aficiones">
+    <div class="section-header reveal">
+      <p class="label">06 · Vida Personal</p>
+      <h2>Aficiones</h2>
+    </div>
+    <div class="hobbies-wrap stagger">
+      <div class="hobby-chip">🏐 Voleibol</div>
+      <div class="hobby-chip">⚽ Fútbol</div>
+      <div class="hobby-chip">🥾 Senderismo</div>
+      <div class="hobby-chip">🚴 Ciclismo</div>
+      <div class="hobby-chip">📸 Modelo</div>
+      <div class="hobby-chip">🥋 Taekwondo</div>
+      <div class="hobby-chip">🎬 Creador de Contenido</div>
+      <div class="hobby-chip">🎮 Streamer</div>
+      <div class="hobby-chip">👨‍🍳 Chef</div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p>&copy; 2026 <span class="accent">Camilo Alejandro Casallas</span> · Portafolio Profesional</p>
+</footer>
+
+<script>
+// Dark Mode
+const themeToggle=document.getElementById('themeToggle');
+const saved=localStorage.getItem('theme');
+if(saved==='dark'){document.documentElement.setAttribute('data-theme','dark');themeToggle.textContent='☀️';}
+themeToggle.addEventListener('click',()=>{
+  const d=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',d?'light':'dark');
+  themeToggle.textContent=d?'🌙':'☀️';
+  localStorage.setItem('theme',d?'light':'dark');
+});
+
+// Mobile Menu
+const hamburger=document.getElementById('hamburger'),navLinks=document.getElementById('navLinks');
+hamburger.addEventListener('click',()=>{navLinks.classList.toggle('open');hamburger.textContent=navLinks.classList.contains('open')?'✕':'☰';});
+navLinks.querySelectorAll('a').forEach(l=>l.addEventListener('click',()=>{navLinks.classList.remove('open');hamburger.textContent='☰';}));
+
+// Active Nav
+const sections=document.querySelectorAll('section'),navAnchors=document.querySelectorAll('.nav-links a');
+function updateActiveNav(){
+  let c='inicio';const sy=window.scrollY;
+  sections.forEach(s=>{if(sy>=s.offsetTop-160)c=s.id;});
+  if(window.innerHeight+sy>=document.body.scrollHeight-50)c=sections[sections.length-1].id;
+  navAnchors.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+c)a.classList.add('active');});
+}
+window.addEventListener('scroll',updateActiveNav);
+
+// Scroll Reveal
+const obs=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.stagger').forEach(el=>obs.observe(el));
+
+// Audio Player
+const audio=document.getElementById('audioPlayer'),playBtn=document.getElementById('playBtn'),
+  pauseBtn=document.getElementById('pauseBtn'),stopBtn=document.getElementById('stopBtn'),
+  bar=document.getElementById('audioProgressBar'),prog=document.getElementById('audioProgress');
+playBtn.addEventListener('click',()=>{audio.play();playBtn.classList.add('playing');pauseBtn.classList.remove('playing');});
+pauseBtn.addEventListener('click',()=>{if(!audio.paused){audio.pause();pauseBtn.classList.add('playing');playBtn.classList.remove('playing');}});
+stopBtn.addEventListener('click',()=>{audio.pause();audio.currentTime=0;playBtn.classList.remove('playing');pauseBtn.classList.remove('playing');bar.style.width='0%';});
+audio.addEventListener('timeupdate',()=>{if(audio.duration)bar.style.width=(audio.currentTime/audio.duration)*100+'%';});
+audio.addEventListener('ended',()=>{playBtn.classList.remove('playing');bar.style.width='0%';});
+prog.addEventListener('click',e=>{const r=prog.getBoundingClientRect();audio.currentTime=(e.clientX-r.left)/r.width*audio.duration;});
+
+// Smooth Scroll
+navAnchors.forEach(a=>a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});}));
+
+// Typing Effect
+const badge=document.querySelector('.hero-badge');
+if(badge){const t=badge.textContent;badge.textContent='';let i=0;function tw(){if(i<t.length){badge.textContent+=t.charAt(i);i++;setTimeout(tw,40);}}setTimeout(tw,600);}
+</script>
+</body>
+</html>
